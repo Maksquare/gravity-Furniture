@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interno</title>
+    <title>Gravity Furniture</title>
 <!-- css -->
     <link rel="stylesheet" href="dist/output.css">
 <!-- Icons -->
@@ -14,259 +14,462 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <!-- Swiper css -->
  <link rel="stylesheet" href="css/swiper-bundle.min.css">
+
+ <style>
+    html { scroll-behavior: smooth; }
+
+    header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 9999 !important;
+    }
+
+    section[id], footer[id] {
+        scroll-margin-top: 95px;
+    }
+
+    main > div:first-child {
+        z-index: 10 !important;
+    }
+
+    /* ── MODAL SYSTEM ── */
+    :root {
+        --accent: #cda274;
+        --accent-secondary: #f4f0ec;
+        --primary: #292f36;
+        --secondary: #4d5053;
+        --border: rgba(205, 162, 116, 0.25);
+    }
+
+    /* Backdrop */
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(41, 47, 54, 0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 99990;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-backdrop.is-visible {
+        display: flex;
+    }
+
+    /* Card */
+    .modal-card {
+        background: #fff;
+        border-radius: 32px;
+        width: 100%;
+        max-width: 680px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow:
+            0 40px 100px rgba(41, 47, 54, 0.22),
+            0 0 0 1px var(--border);
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent) transparent;
+        /* Starting state for animation */
+        opacity: 0;
+        transform: translateY(32px) scale(0.96);
+    }
+
+    .modal-card::-webkit-scrollbar { width: 4px; }
+    .modal-card::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    /* Card inner sections */
+    .modal-hero {
+        position: relative;
+        height: 260px;
+        overflow: hidden;
+        border-radius: 24px 24px 0 0;
+    }
+
+    .modal-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .modal-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 40%, rgba(41, 47, 54, 0.7) 100%);
+    }
+
+    .modal-hero-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: var(--accent);
+        color: #fff;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 6px 16px;
+        border-radius: 100px;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.92);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.1rem;
+        color: var(--primary);
+        transition: background 0.2s, transform 0.2s;
+        z-index: 2;
+    }
+
+    .modal-close:hover {
+        background: var(--accent);
+        color: #fff;
+        transform: rotate(90deg);
+    }
+
+    .modal-body {
+        padding: 36px 40px 44px;
+    }
+
+    .modal-eyebrow {
+        font-family: 'Jost', sans-serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .modal-title {
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+        color: var(--primary);
+        line-height: 1.1;
+        margin-bottom: 18px;
+    }
+
+    .modal-desc {
+        font-family: 'Jost', sans-serif;
+        font-size: 0.96rem;
+        color: var(--secondary);
+        line-height: 1.8;
+        font-weight: 300;
+        margin-bottom: 32px;
+    }
+
+    /* Feature list inside modal */
+    .modal-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 36px;
+    }
+
+    @media (max-width: 500px) {
+        .modal-features { grid-template-columns: 1fr; }
+        .modal-body { padding: 28px 24px 36px; }
+    }
+
+    .modal-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+        background: var(--accent-secondary);
+        border-radius: 14px;
+        border: 1px solid var(--border);
+    }
+
+    .modal-feature i {
+        color: var(--accent);
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .modal-feature-text strong {
+        display: block;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 3px;
+    }
+
+    .modal-feature-text span {
+        font-family: 'Jost', sans-serif;
+        font-size: 0.8rem;
+        color: var(--secondary);
+        font-weight: 300;
+        line-height: 1.4;
+    }
+
+    /* Divider */
+    .modal-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0 0 28px;
+    }
+
+    /* CTA row */
+    .modal-cta {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .modal-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 30px;
+        background: var(--primary);
+        color: #fff;
+        border: 2px solid var(--primary);
+        border-radius: 100px;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.22s, border-color 0.22s, transform 0.22s;
+    }
+
+    .modal-btn-primary:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    .modal-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 30px;
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--border);
+        border-radius: 100px;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: border-color 0.22s, background 0.22s, transform 0.22s;
+    }
+
+    .modal-btn-outline:hover {
+        border-color: var(--accent);
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+    }
+ </style>
 </head>
 <body class="bg-gray-100">
 
     <!-- header -->
-     <header class="sticky top-0 h-[90px] shadow-xl z-30 bg-white  ">
-        <div class="container mx-auto flex justify-between h-full items-center
-        ">
+     <header class="sticky top-0 h-[90px] shadow-xl bg-white" style="z-index:9999;">
+        <div class="container mx-auto flex justify-between h-full items-center">
             <!-- logo -->
-             <a href="#">
-                <img src="assets/logo.svg" alt="interno">
+             <a href="#home">
+                <img src="assets/logo.svg" alt="Gravity Furniture">
              </a>
              <!-- navigation -->
               <nav>
                 <!-- nav mobile trigger -->
                  <div class="cursor-pointer lg:hidden" id="nav_trigger_btn">
-                    <i class="ri-menu-4-line text-4xl text-primary "></i>
+                    <i class="ri-menu-4-line text-4xl text-primary"></i>
                  </div>
                 <ul class="fixed w-full h-0 p-0 bg-white overflow-hidden 
                 border-t top-[90px] left-0 right-0 flex flex-col gap-4 lg:relative
-                lg:flex-row lg:p-0 lg:top-0 lg:border-none lg:h-full transition-all duration-300
-
-                "
+                lg:flex-row lg:p-0 lg:top-0 lg:border-none lg:h-full transition-all duration-300"
                  id="nav_menu"
                 >
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Our Work</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#works">Our Work</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
               </nav>
         </div>
      </header>
+
 <!-- page wrapper -->
  <main class="max-w-[1920px] mx-auto bg-white overflow-hidden">
     <!-- grid image -->
-     <div class="xl:bg-grid xl:bg-center xl:bg-repeat-y fixed top-0 bottom-0 *:first-letter:
-     left-0 right-0 z-10"></div>
-
+     <div class="xl:bg-grid xl:bg-center xl:bg-repeat-y fixed top-[90px] bottom-0
+     left-0 right-0" style="z-index:5;"></div>
 
      <!-- hero -->
- <section class="hero h-[640px] xl:h-[840px] bg-hero bg-center lg:bg-cover
- bg-no-repeat bg-fixed xl:rounded-bl-[290px] relative z-20 
- ">
-<div class="container mx-auto h-full flex items-center justify-center
-
-xl:justify-start
-">
+ <section id="home" class="hero h-[640px] xl:h-[840px] bg-hero bg-center lg:bg-cover
+ bg-no-repeat bg-fixed xl:rounded-bl-[290px] relative z-20">
+<div class="container mx-auto h-full flex items-center justify-center xl:justify-start">
 <!-- text -->
- <div class="hero__text w-[567px] flex flex-col items-center text-center xl:text-left
- lg:items-start
- ">
-<h1 class="h1 mb-8"> Let Your Home Be Unique</h1>
-<p class="mb-8">There are many variations of the passages of lorem Ipsum from available,variations of the passages.</p>
-<button class="btn btn-primary mx-auto xl:mx-0">Get free estimation
+ <div class="hero__text w-[567px] flex flex-col items-center text-center xl:text-left lg:items-start">
+<h1 class="h1 mb-8">Elevate Your Space with Premium Furniture</h1>
+<p class="mb-8">Gravity Furniture brings you an exclusive collection of beautifully crafted, premium pieces designed to transform every room into a statement of luxury and comfort.</p>
+<a href="collection.html" class="btn btn-primary mx-auto xl:mx-0">Explore Collection
     <i class="ri-arrow-right-line text-accent"></i>
-</button>
+</a>
 </div>
  </div>
 </section>
 
 <!-- steps -->
- <section class="steps mt-[80px] xl:mt-[200px] relative z-20">
+ <section id="steps" class="steps mt-[80px] xl:mt-[200px] relative z-20">
     <div class="container mx-auto">
-<!-- grid items -->
  <div class="grid grid-cols-1 gap-12 xl:grid-cols-3">
-    <!-- step 1 -->
+
+    <!-- step 1 — Custom Design -->
     <div class="steps__step text-center">
         <div class="mb-4">
             <i class="ri-compasses-2-line text-5xl text-accent"></i>
         </div>
-       <h3 class="h3 mb-5">Project Planning</h3> 
-       <p class="mb-5 max-w-md mx-auto">There are many variations of the passages of lorem Ipsum from available, majority.
-</p>
-    <a class="font-medium flex justify-center gap-2" href="#">Read more
+       <h3 class="h3 mb-5">Custom Design</h3> 
+       <p class="mb-5 max-w-md mx-auto">Work with our expert designers to craft bespoke furniture pieces tailored perfectly to your space and personal style.</p>
+    <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn"
+       data-modal="modal-design">Read more
         <i class="ri-arrow-right-line text-accent"></i>
     </a>
     </div>
-    <!-- step 2 -->
+
+    <!-- step 2 — Premium Materials -->
     <div class="steps__step text-center">
         <div class="mb-4">
             <i class="ri-magic-line text-5xl text-accent"></i>
         </div>
-       <h3 class="h3 mb-5">Gaining Materials</h3> 
-       <p class="mb-5 max-w-md mx-auto">There are many variations of the passages of lorem Ipsum from available, majority.
-</p>
-    <a class="font-medium flex justify-center gap-2" href="#">Read more
+       <h3 class="h3 mb-5">Premium Materials</h3> 
+       <p class="mb-5 max-w-md mx-auto">Every piece is crafted using the finest sustainably sourced hardwoods, luxurious fabrics, and top-grade metals for lasting beauty.</p>
+    <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn"
+       data-modal="modal-materials">Read more
         <i class="ri-arrow-right-line text-accent"></i>
     </a>
     </div>
-    <!-- step 3 -->
+
+    <!-- step 3 — White Glove Delivery -->
     <div class="steps__step text-center">
         <div class="mb-4">
             <i class="ri-tools-line text-5xl text-accent"></i>
         </div>
-       <h3 class="h3 mb-5">Project Execution</h3> 
-       <p class="mb-5 max-w-md mx-auto">There are many variations of the passages of lorem Ipsum from available, majority.
-</p>
-    <a class="font-medium flex justify-center gap-2" href="#">Read more
+       <h3 class="h3 mb-5">White Glove Delivery</h3> 
+       <p class="mb-5 max-w-md mx-auto">We handle everything from delivery to in-home setup, ensuring your new furniture is perfectly placed and ready to enjoy.</p>
+    <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn"
+       data-modal="modal-delivery">Read more
         <i class="ri-arrow-right-line text-accent"></i>
     </a>
     </div>
-    
+
  </div>
     </div>
-    <!-- about -->
  </section>
-   <section class="about mt-[80px] xl:mt-[200px] relative z-20">
+
+ <!-- about -->
+   <section id="about" class="about mt-[80px] xl:mt-[200px] relative z-20">
     <div class="container mx-auto xl:px-0">
 <div class="flex flex-col xl:flex-row text-center xl:text-left justify-between
 items-center gap-8 xl:gap-[74px]">
-    <!-- text -->
-     <div class="flex-1 order-2 xl:order-none max-w-xl xl:max-w-[410px] flex
+    <div class="about__text flex-1 order-2 xl:order-none max-w-xl xl:max-w-[410px] flex
      flex-col items-center xl:items-start gap-8">
-        <h2 class="h2 ">We Create The Art Of Stylish Living Stylishly</h2>
-        <p>It is a long established fact that a reader will be distracted by the of readable content of a page 
-when lookings at its layouts the points of using 
-that it has a more-or-less normal.</p>
-<!-- phone -->
+        <h2 class="h2">Crafted for Those Who Demand the Finest</h2>
+        <p>Gravity Furniture was founded on a singular belief — that the furniture you live with should be as extraordinary as the life you lead. Each of our pieces is handcrafted by master artisans, blending timeless aesthetics with modern functionality.</p>
  <div class="flex items-center justify-center xl:justify-start gap-4">
-    <div class="bg-accent/15 w-[93px] h-[93px] rounded-full flex justify-center 
-    items-center">
+    <div class="bg-accent/15 w-[93px] h-[93px] rounded-full flex justify-center items-center">
         <i class="ri-phone-fill text-accent text-4xl"></i>
     </div>
-    <div class="text-left ">
+    <div class="text-left">
         <div class="text-2xl font-bold">0912 345 6781</div>
         <div>Call Us Anytime</div>
     </div>
 </div>
-<!-- btn -->
 <button class="btn btn-primary">
-   Get Free Consultation
+   Book a Showroom Visit
    <i class="ri-arrow-right-line text-accent"></i>
 </button>
 </div>
-<!-- img -->
-     <div class="about__img order-1 xl:order:none max-w-[453px] mx-auto xl:max-w-none
-     xl:mx-0
-     ">
-        <img src="assets/about/img.png" alt="">
+     <div class="about__img order-1 xl:order:none max-w-[453px] mx-auto xl:max-w-none xl:mx-0">
+        <img src="assets/about/img.png" alt="Premium furniture showcase">
     </div>
 </div>
     </div>
    </section>
 
    <!-- testimonials -->
-    <section class="testimonial mt-[80px] xl:mt-[200px] relative z-20">
-<div class="testimonial__bg container mx-auto bg-accent-secondary 
-
-rounded-[70px] px-6
-
-">
-
+    <section id="testimonials" class="testimonial mt-[80px] xl:mt-[200px] relative z-20">
+<div class="testimonial__bg container mx-auto bg-accent-secondary rounded-[70px] px-6">
 <div class="flex flex-col items-center pt-[88px] pb-[110px]">
-
-    <h2 class="testimonial__title h2 mb-9 text-center">What clients say</h2>
-    <!-- Slider -->
+    <h2 class="testimonial__title h2 mb-9 text-center">What Our Clients Say</h2>
      <div class="w-full">
         <div class="testimonial__slider swiper h-[400px]">
             <div class="swiper-wrapper">
-                <!-- slide 1 -->
-                 <div class="swiper-slide ">
-                    <!-- item -->
-                     <div class="testimonial__item w-full max-w-[450px] h-[340px]
-                     bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto
-    
-                     ">
-                    <div class="flex gap-4 mb-6 ">
+                <div class="swiper-slide">
+                    <div class="testimonial__item w-full max-w-[450px] h-[340px] bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto">
+                    <div class="flex gap-4 mb-6">
                         <img src="assets/testimonial/01.png" alt="">
-                        <div>
-                            <h3 class="h3">Nattasha Mith</h3>
-                            <div>Greenville, USA</div>
-                        </div>
+                        <div><h3 class="h3">Nattasha Mith</h3><div>Greenville, USA</div></div>
                     </div>
-                    <p>Lorem Ipsum is simply dummy 
-    text of the typesetting industry. 
-    Ipsum has been.</p>
+                    <p>Gravity Furniture completely transformed our living room. The craftsmanship is absolutely unmatched — every detail is perfect.</p>
                     </div>
-                 </div>
-                <!-- slide 2 -->
-                 <div class="swiper-slide ">
-                    <!-- item -->
-                     <div class="testimonial__item w-full max-w-[450px] h-[340px]
-                     bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto
-    
-                     ">
-                    <div class="flex gap-4 mb-6 ">
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonial__item w-full max-w-[450px] h-[340px] bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto">
+                    <div class="flex gap-4 mb-6">
                         <img src="assets/testimonial/02.png" alt="">
-                        <div>
-                            <h3 class="h3">Jessica White</h3>
-                            <div>Oak Ridge, USA</div>
-                        </div>
+                        <div><h3 class="h3">Jessica White</h3><div>Oak Ridge, USA</div></div>
                     </div>
-                    <p>Lorem Ipsum is simply dummy 
-    text of the typesetting industry. 
-    Ipsum has been.</p>
+                    <p>I've purchased luxury furniture from many places, but Gravity stands apart. The quality, the service, and the beauty of each piece is truly exceptional.</p>
                     </div>
-                 </div>       
-                <!-- slide 3 -->
-                 <div class="swiper-slide ">
-                    <!-- item -->
-                     <div class="testimonial__item w-full max-w-[450px] h-[340px]
-                     bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto
-    
-                     ">
-                    <div class="flex gap-4 mb-6 ">
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonial__item w-full max-w-[450px] h-[340px] bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto">
+                    <div class="flex gap-4 mb-6">
                         <img src="assets/testimonial/03.png" alt="">
-                        <div>
-                            <h3 class="h3">Mike Davis</h3>
-                            <div>Berlin, Germany</div>
-                        </div>
+                        <div><h3 class="h3">Mike Davis</h3><div>Berlin, Germany</div></div>
                     </div>
-                    <p>Lorem Ipsum is simply dummy 
-    text of the typesetting industry. 
-    Ipsum has been.</p>
+                    <p>The bespoke dining table we ordered is the centrepiece of our home. Everyone who visits immediately asks where it came from. Truly world-class work.</p>
                     </div>
-                 </div>       
-                <!-- slide 4 -->
-                 <div class="swiper-slide ">
-                    <!-- item -->
-                     <div class="testimonial__item w-full max-w-[450px] h-[340px]
-                     bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto
-    
-                     ">
-                    <div class="flex gap-4 mb-6 ">
+                </div>
+                <div class="swiper-slide">
+                    <div class="testimonial__item w-full max-w-[450px] h-[340px] bg-white rounded-[30px] flex flex-col justify-center p-9 mx-auto">
+                    <div class="flex gap-4 mb-6">
                         <img src="assets/testimonial/04.png" alt="">
-                        <div>
-                            <h3 class="h3">Olivia Wilson</h3>
-                            <div>Blue Ridge, France</div>
-                        </div>
+                        <div><h3 class="h3">Olivia Wilson</h3><div>Paris, France</div></div>
                     </div>
-                    <p>Lorem Ipsum is simply dummy 
-    text of the typesetting industry. 
-    Ipsum has been.</p>
+                    <p>From the showroom experience to the white glove delivery, every step was flawless. Gravity Furniture has a customer for life in me.</p>
                     </div>
-                 </div>       
+                </div>
             </div>
-            <!-- Swiper pagination -->
             <div class="swiper-pagination"></div>
         </div>
      </div>
 </div>
-
 </div>
     </section>
 
     <!-- brands -->
      <section class="brands mt-[80px] xl:mt-[150px] relative z-20">  
 <div class="container mx-auto">
-    <div class="flex flex-col xl:flex-row justify-between items-center
-    gap-12
-    ">
+    <div class="flex flex-col xl:flex-row justify-between items-center gap-12">
         <img class="brands__img" src="assets/brands/01.svg" alt="">
         <img class="brands__img" src="assets/brands/02.svg" alt="">
         <img class="brands__img" src="assets/brands/03.svg" alt="">
@@ -277,78 +480,39 @@ rounded-[70px] px-6
      </section>
 
      <!-- works -->
-      <section class="works mt-[80px] xl:mt-[150px] relative z-20">
+      <section id="works" class="works mt-[80px] xl:mt-[150px] relative z-20">
         <div class="container mx-auto xl:px-0">
-            <!-- text -->
              <div class="text-center mb-24">
-                <h2 class="work__title h2 mb-4 ">Follow Our Project</h2>
-                <p class="work__subtitle max-w-3xl mx-auto">It is a long established fact that a reader will be distracted by the of readable content of page lookings at its layouts points.</p>
+                <h2 class="work__title h2 mb-4">Our Signature Collections</h2>
+                <p class="work__subtitle max-w-3xl mx-auto">Explore our curated portfolio of premium furniture pieces, each one a testament to masterful craftsmanship and refined design sensibility.</p>
              </div>
-            <!-- grid -->
-             <div class="work__grid grid grid-cols-1 xl:grid-cols-2
-             gap-x-[104px] gap-y-[56px]">  
-                 <!--Item 1  -->
+             <div class="work__grid grid grid-cols-1 xl:grid-cols-2 gap-x-[104px] gap-y-[56px]">  
                 <div class="w-full max-w-[548px] h-full mx-auto">
-                    <img class ="mb-6 "src="assets/work/01.png" alt="">
+                    <img class="mb-6" src="assets/work/01.png" alt="Luxury Living Room Set">
                     <div class="flex justify-between items-center w-full">
-                        <div>
-                            <h3 class="h3">Modern Kitchen</h3>
-                            <p>Decor/Architecture</p>
-                        </div>
-                        <button class="bg-accent-secondary w-[70px] h-[70px]
-                        rounded-full
-                        ">
-                            <i class="ri-arrow-right-s-line text-3xl text-primary
-                            pl-1"></i>
-                        </button>
+                        <div><h3 class="h3">Luxury Living Room Set</h3><p>Sofas &amp; Lounge Furniture</p></div>
+                        <button class="bg-accent-secondary w-[70px] h-[70px] rounded-full"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                     </div>
                 </div>
-                 <!--Item 2  -->
                 <div class="w-full max-w-[548px] h-full mx-auto">
-                    <img class ="mb-6 "src="assets/work/02.png" alt="">
+                    <img class="mb-6" src="assets/work/02.png" alt="Executive Home Office">
                     <div class="flex justify-between items-center w-full">
-                        <div>
-                            <h3 class="h3">Modern Kitchen</h3>
-                            <p>Decor/Architecture</p>
-                        </div>
-                        <button class="bg-accent-secondary w-[70px] h-[70px]
-                        rounded-full
-                        ">
-                            <i class="ri-arrow-right-s-line text-3xl text-primary
-                            pl-1"></i>
-                        </button>
+                        <div><h3 class="h3">Executive Home Office</h3><p>Desks &amp; Workspaces</p></div>
+                        <button class="bg-accent-secondary w-[70px] h-[70px] rounded-full"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                     </div>
                 </div>
-                 <!--Item 3  -->
                 <div class="w-full max-w-[548px] h-full mx-auto">
-                    <img class ="mb-6 "src="assets/work/03.png" alt="">
+                    <img class="mb-6" src="assets/work/03.png" alt="Bespoke Bedroom Suite">
                     <div class="flex justify-between items-center w-full">
-                        <div>
-                            <h3 class="h3">Modern Kitchen</h3>
-                            <p>Decor/Architecture</p>
-                        </div>
-                        <button class="bg-accent-secondary w-[70px] h-[70px]
-                        rounded-full
-                        ">
-                            <i class="ri-arrow-right-s-line text-3xl text-primary
-                            pl-1"></i>
-                        </button>
+                        <div><h3 class="h3">Bespoke Bedroom Suite</h3><p>Beds &amp; Bedroom Furniture</p></div>
+                        <button class="bg-accent-secondary w-[70px] h-[70px] rounded-full"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                     </div>
                 </div>
-                 <!--Item 4  -->
                 <div class="w-full max-w-[548px] h-full mx-auto">
-                    <img class ="mb-6 "src="assets/work/04.png" alt="">
+                    <img class="mb-6" src="assets/work/04.png" alt="Artisan Dining Collection">
                     <div class="flex justify-between items-center w-full">
-                        <div>
-                            <h3 class="h3">Modern Kitchen</h3>
-                            <p>Decor/Architecture</p>
-                        </div>
-                        <button class="bg-accent-secondary w-[70px] h-[70px]
-                        rounded-full
-                        ">
-                            <i class="ri-arrow-right-s-line text-3xl text-primary
-                            pl-1"></i>
-                        </button>
+                        <div><h3 class="h3">Artisan Dining Collection</h3><p>Tables &amp; Dining Sets</p></div>
+                        <button class="bg-accent-secondary w-[70px] h-[70px] rounded-full"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                     </div>
                 </div>
              </div>
@@ -356,227 +520,425 @@ rounded-[70px] px-6
       </section>
 
       <!-- Stats -->
-       <section class="stats mt-[80px] xl:mt-[150px] relative z-20 bg-accent-secondary
-       py-[80px] xl:py-[150px]
-       
-       ">
+       <section class="stats mt-[80px] xl:mt-[150px] relative z-20 bg-accent-secondary py-[80px] xl:py-[150px]">
         <div class="container mx-auto">
-            <!-- grid -->
              <div class="grid grid-cols-1 xl:grid-cols-4 gap-12">
-                <!-- grid item 1 -->
-                 <div class="stats__item text-center xl:border-r xl:border-accent">
-                    <h3 class="h1 font-primary text-accent">85</h3>
-                    <p>Projects Completed</p>
-                 </div>
-                <!-- grid item 2 -->
-                 <div class="stats__item text-center xl:border-r xl:border-accent">
-                    <h3 class="h1 font-primary text-accent">15</h3>
-                    <p>Active Projects</p>
-                 </div>
-                <!-- grid item 3 -->
-                 <div class="stats__item text-center xl:border-r xl:border-accent">
-                    <h3 class="h1 font-primary text-accent">95</h3>
-                    <p>Happy Customers</p>
-                 </div>
-                <!-- grid item 4 -->
-                 <div class="stats__item text-center xl:border-r ">
-                    <h3 class="h1 font-primary text-accent">12</h3>
-                    <p>Years of Experience</p>
-                 </div>
+                <div class="stats__item text-center xl:border-r xl:border-accent"><h3 class="h1 font-primary text-accent">320</h3><p>Pieces Crafted</p></div>
+                <div class="stats__item text-center xl:border-r xl:border-accent"><h3 class="h1 font-primary text-accent">48</h3><p>Active Orders</p></div>
+                <div class="stats__item text-center xl:border-r xl:border-accent"><h3 class="h1 font-primary text-accent">97</h3><p>Happy Clients</p></div>
+                <div class="stats__item text-center xl:border-r"><h3 class="h1 font-primary text-accent">18</h3><p>Years of Mastery</p></div>
              </div>
         </div>
        </section>
 
        <!-- news -->
-        <section class="news mt-[80px] xl:mt-[150px] relative z-20 ">
+        <section id="news" class="news mt-[80px] xl:mt-[150px] relative z-20">
             <div class="container mx-auto px-0">
-                <!-- text -->
                  <div class="max-w-[810px] mx-auto text-center mb-[52px]">
-                    <h2 class="news__title h2 mb-3 ">Articles & News</h2>
-                    <p class="news__subtitle">It is a long established fact that a reader will be distracted by the of readable content of a page when lookings at its layouts the points of using.</p>
+                    <h2 class="news__title h2 mb-3">Articles &amp; News</h2>
+                    <p class="news__subtitle">Stay inspired with the latest trends in premium furniture, interior design insights, and behind-the-scenes stories from the Gravity Furniture workshop.</p>
                  </div>
-                <!-- grid -->
                  <div class="news__grid grid grid-cols-1 xl:grid-cols-3 gap-[27px]">
-                    <!-- grid item -->
-                     <div class="news__item w-full max-w-[382px] h-[520px]
-                     border border-primary/20 rounded-[62px] p-[20px] 
-                     hover:bg-accent-secondary transition-all group cursor-pointer
-                     mx-auto xl:mx-0
-                     ">
-                    <img  class="mb-5" src="assets/news/01.png" alt="">
+                     <div class="news__item w-full max-w-[382px] h-[520px] border border-primary/20 rounded-[62px] p-[20px] hover:bg-accent-secondary transition-all group cursor-pointer mx-auto xl:mx-0">
+                    <img class="mb-5" src="assets/news/01.png" alt="">
                     <div class="flex flex-col gap-[30px]">
-                        <h3 class="h3">Let’s Get Solution For Building Construction Work</h3>
+                        <h3 class="h3">The Art of Choosing the Perfect Statement Sofa</h3>
                         <div class="flex items-center justify-between">
-                            <p class="text-base">22 June,2024</p>
-                            <button class="bg-accent-secondary w-[52px] h-[52px]
-                            rounded-full group-hover:bg-white transition-all
-                            ">
-                                <i class="ri-arrow-right-s-line text-3xl text-primary
-                                pl-1
-                                "></i>
-                            </button>
+                            <p class="text-base">14 March, 2026</p>
+                            <button class="bg-accent-secondary w-[52px] h-[52px] rounded-full group-hover:bg-white transition-all"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                         </div>
                     </div>
                     </div>
-                    <!-- grid item -->
-                     <div class="news__item w-full max-w-[382px] h-[520px]
-                     border border-primary/20 rounded-[62px] p-[20px] 
-                     hover:bg-accent-secondary transition-all group cursor-pointer
-                     mx-auto xl:mx-0
-                     ">
-                    <img  class="mb-5" src="assets/news/02.png" alt="">
+                     <div class="news__item w-full max-w-[382px] h-[520px] border border-primary/20 rounded-[62px] p-[20px] hover:bg-accent-secondary transition-all group cursor-pointer mx-auto xl:mx-0">
+                    <img class="mb-5" src="assets/news/02.png" alt="">
                     <div class="flex flex-col gap-[30px]">
-                        <h3 class="h3">Low Cost Latest Invented Interior Designing</h3>
+                        <h3 class="h3">Sustainable Luxury: How We Source Our Premium Woods</h3>
                         <div class="flex items-center justify-between">
-                            <p class="text-base">22 June,2024</p>
-                            <button class="bg-accent-secondary w-[52px] h-[52px]
-                            rounded-full group-hover:bg-white transition-all
-                            ">
-                                <i class="ri-arrow-right-s-line text-3xl text-primary
-                                pl-1
-                                "></i>
-                            </button>
+                            <p class="text-base">02 April, 2026</p>
+                            <button class="bg-accent-secondary w-[52px] h-[52px] rounded-full group-hover:bg-white transition-all"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                         </div>
                     </div>
                     </div>
-                    <!-- grid item -->
-                     <div class="news__item w-full max-w-[382px] h-[520px]
-                     border border-primary/20 rounded-[62px] p-[20px] 
-                     hover:bg-accent-secondary transition-all group cursor-pointer
-                     mx-auto xl:mx-0
-                     ">
-                    <img  class="mb-5" src="assets/news/03.png" alt="">
+                     <div class="news__item w-full max-w-[382px] h-[520px] border border-primary/20 rounded-[62px] p-[20px] hover:bg-accent-secondary transition-all group cursor-pointer mx-auto xl:mx-0">
+                    <img class="mb-5" src="assets/news/03.png" alt="">
                     <div class="flex flex-col gap-[30px]">
-                        <h3 class="h3">Let’s Get Solution For Building Construction Work</h3>
+                        <h3 class="h3">5 Interior Design Trends Defining 2026</h3>
                         <div class="flex items-center justify-between">
-                            <p class="text-base">22 June,2024</p>
-                            <button class="bg-accent-secondary w-[52px] h-[52px]
-                            rounded-full group-hover:bg-white transition-all
-                            ">
-                                <i class="ri-arrow-right-s-line text-3xl text-primary
-                                pl-1
-                                "></i>
-                            </button>
+                            <p class="text-base">28 April, 2026</p>
+                            <button class="bg-accent-secondary w-[52px] h-[52px] rounded-full group-hover:bg-white transition-all"><i class="ri-arrow-right-s-line text-3xl text-primary pl-1"></i></button>
                         </div>
                     </div>
                     </div>
-                   
                  </div>
             </div>
         </section>
+
       <!-- contact -->
-       <section class="contact mt-[80px] xl:mt-[150px] relative z-20 ">
-        <div class="contact__container container mx-auto bg-primary 
-        sm:rounded-[70px] py-[80px]">
+       <section id="contact" class="contact mt-[80px] xl:mt-[150px] relative z-20">
+        <div class="contact__container container mx-auto bg-primary sm:rounded-[70px] py-[80px]">
        <div class="contact__text max-w-[640px] mx-auto text-center">
-         <h2 class="h2 text-white mb-4">Do you want to join our Interno?</h2>
-         <p class="text-white mb-8 max-w-sm xl:max-w-none mx-auto">It is a long established fact will be distracted.</p>
-       <button class="btn btn-accent mx-auto"> Connect with us
+         <h2 class="h2 text-white mb-4">Ready to Furnish Your Dream Space?</h2>
+         <p class="text-white mb-8 max-w-sm xl:max-w-none mx-auto">Visit our showroom or speak with a designer today — we'll bring your vision to life.</p>
+       <button class="btn btn-accent mx-auto"> Get in Touch
         <i class="ri-arrow-right-line text-primary"></i>
        </button>
         </div>
         </div>
        </section>
+
 <!-- footer -->
- <footer class="footer mt-[80px] xl:mt-[150px] relative z-20 ">
+ <footer id="footer" class="footer mt-[80px] xl:mt-[150px] relative z-20">
 <div class="container mx-auto px-0">
  <div class="flex flex-col xl:flex-row xl:gap-[100px] xl:mb-[150px]">
-    <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center
-    xl:text-left ">
-<!-- logo -->
- <a  class="flex justify-center xl:justify-start mb-8" href="#">
-    <img src="assets//logo.svg" alt="">
+    <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center xl:text-left">
+ <a class="flex justify-center xl:justify-start mb-8" href="#home">
+    <img src="assets/logo.svg" alt="Gravity Furniture">
 </a>
-<p class="mb-8 text-xl">It is a long established fact that a reader will be distracted lookings.
-Socials</p>
-<!-- socials -->
-
-<ul class="text-primary flex gap-[54px] justify-center xl:justify-start
-
-
-">
+<p class="mb-8 text-xl">Crafting premium, handmade furniture for those who appreciate the finest things in life.</p>
+<ul class="text-primary flex gap-[54px] justify-center xl:justify-start">
     <li><a href="#"><i class="ri-facebook-fill"></i></a></li>
     <li><a href="#"><i class="ri-twitter-x-fill"></i></a></li>
     <li><a href="#"><i class="ri-linkedin-fill"></i></a></li>
     <li><a href="#"><i class="ri-instagram-line"></i></a></li>
 </ul>
-
 </div>
-    <div class="flex-1 flex flex-col xl:flex-row text-center
-    xl:text-left gap-12 xl:gap-[100px] xl:justify-end
-    
-   ">
-
+    <div class="flex-1 flex flex-col xl:flex-row text-center xl:text-left gap-12 xl:gap-[100px] xl:justify-end">
 <div class="footer__item">
     <h3 class="h3 mb-3">Pages</h3>
-    <ul class="flex flex-col gap-4 ">
-        <li>
-        <a href="#">About Us</a>
-        </li>
-        <li>
-        <a href="#">Testimonials</a>
-        </li>
-        <li>
-        <a href="#">Our Work</a>
-        </li>
-        <li>
-        <a href="#">News</a>
-        </li>
-        <li>
-        <a href="#">Contact</a>
-        </li>
+    <ul class="flex flex-col gap-4">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#works">Our Work</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
     </ul>
 </div>
 <div class="footer__item">
-    <h3 class="h3 mb-3">Services</h3>
-    <ul class="flex flex-col gap-4 ">
-        <li>
-        <a href="#">Kitchen</a>
-        </li>
-        <li>
-        <a href="#">Living Area</a>
-        </li>
-        <li>
-        <a href="#">Bathroom</a>
-        </li>
-        <li>
-        <a href="#">Bedroom</a>
-        </li>
+    <h3 class="h3 mb-3">Collections</h3>
+    <ul class="flex flex-col gap-4">
+        <li><a href="#works">Living Room</a></li>
+        <li><a href="#works">Bedroom</a></li>
+        <li><a href="#works">Dining Room</a></li>
+        <li><a href="#works">Home Office</a></li>
     </ul>
 </div>
-<div class="footer__item max-w-[260px] mx-auto xl:mx-0 ">
+<div class="footer__item max-w-[260px] mx-auto xl:mx-0">
     <h3 class="h3 mb-3">Contact</h3>
     <div class="flex flex-col gap-6 text-[20px]">
-        <p>55 East Birchwood Ave. Brooklyn, New York 11201</p>
-        <p>contact@interno.com</p>
+        <p>14 Craftsman Boulevard, Addis Ababa, Ethiopia</p>
+        <p>hello@gravityfurniture.com</p>
         <p>(123) 456 - 7890</p>
     </div>
 </div>
 </div>
  </div>
 </div>
-<!-- copyright -->
- <div class="footer__copyright text-center text-lg py-10 bg-white 
- xl:border-t">
-    <p> Copyright &copy; 2026 Interno. All rights reserved.</p>
+ <div class="footer__copyright text-center text-lg py-10 bg-white xl:border-t">
+    <p>Copyright &copy; 2026 Gravity Furniture. All rights reserved.</p>
  </div>
  </footer>
-<!-- temporary div -->
-<!-- <div class="h-[3000px]"></div> -->
  </main>
 
 
+<!-- ══════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════ -->
+
+<!-- MODAL 1: Custom Design -->
+<div class="modal-backdrop" id="modal-design" role="dialog" aria-modal="true" aria-labelledby="modal-design-title">
+    <div class="modal-card" id="modal-design-card">
+        <div class="modal-hero">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80&auto=format&fit=crop" alt="Custom Design">
+            <div class="modal-hero-overlay"></div>
+            <span class="modal-hero-badge">Our Process</span>
+            <button class="modal-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-eyebrow">Gravity Furniture — Design Studio</p>
+            <h2 class="modal-title" id="modal-design-title">Custom Design, Built Around You</h2>
+            <p class="modal-desc">Every client relationship begins with a conversation. Our senior designers sit with you — in your home or at our studio — to understand how you live, what you love, and what a space means to you. From that dialogue emerges a piece that is unmistakably yours, drawn by hand before a single cut is made.</p>
+            <div class="modal-features">
+                <div class="modal-feature">
+                    <i class="ri-user-voice-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Personal Consultation</strong>
+                        <span>One-on-one sessions with a senior designer, in-studio or at your home.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-draft-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Hand-Drawn Sketches</strong>
+                        <span>Every concept begins on paper — never from a template.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-3d-cube-sphere-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>3D Visualisation</strong>
+                        <span>Photorealistic renders so you see the piece before it's built.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-settings-3-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Unlimited Revisions</strong>
+                        <span>We refine until the design is exactly right. No extra charge.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-divider"></div>
+            <div class="modal-cta">
+                <a href="#contact" class="modal-btn-primary modal-close-trigger">
+                    Book a Consultation <i class="ri-arrow-right-line"></i>
+                </a>
+                <a href="collection.html" class="modal-btn-outline">
+                    View Collection <i class="ri-eye-line"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: Premium Materials -->
+<div class="modal-backdrop" id="modal-materials" role="dialog" aria-modal="true" aria-labelledby="modal-materials-title">
+    <div class="modal-card" id="modal-materials-card">
+        <div class="modal-hero">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop" alt="Premium Materials">
+            <div class="modal-hero-overlay"></div>
+            <span class="modal-hero-badge">Craftsmanship</span>
+            <button class="modal-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-eyebrow">Gravity Furniture — Materials</p>
+            <h2 class="modal-title" id="modal-materials-title">Only the World's Finest Materials</h2>
+            <p class="modal-desc">We travel to Portugal, Japan, and Scandinavia to source the timber, fabric, and metals that meet our exacting standards. Sustainability is not a marketing claim for us — it is baked into every sourcing decision we make, ensuring your investment endures for generations.</p>
+            <div class="modal-features">
+                <div class="modal-feature">
+                    <i class="ri-leaf-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Sustainably Sourced Wood</strong>
+                        <span>Grade-A walnut, oak, and teak — FSC-certified and ethically harvested.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-scissors-cut-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Luxury Fabrics</strong>
+                        <span>Bouclé, full-grain leather, and Sunbrella — chosen for beauty and durability.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-copper-coin-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Solid Brass & Steel</strong>
+                        <span>Hardware and fixings that develop a rich patina over decades.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-shield-check-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Lifetime Guarantee</strong>
+                        <span>Every piece is covered for structural integrity — for life.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-divider"></div>
+            <div class="modal-cta">
+                <a href="collection.html" class="modal-btn-primary">
+                    Explore Collection <i class="ri-arrow-right-line"></i>
+                </a>
+                <a href="#contact" class="modal-btn-outline modal-close-trigger">
+                    Ask a Designer <i class="ri-message-3-line"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 3: White Glove Delivery -->
+<div class="modal-backdrop" id="modal-delivery" role="dialog" aria-modal="true" aria-labelledby="modal-delivery-title">
+    <div class="modal-card" id="modal-delivery-card">
+        <div class="modal-hero">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80&auto=format&fit=crop" alt="White Glove Delivery">
+            <div class="modal-hero-overlay"></div>
+            <span class="modal-hero-badge">Delivery & Setup</span>
+            <button class="modal-close" aria-label="Close modal"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-eyebrow">Gravity Furniture — Delivery</p>
+            <h2 class="modal-title" id="modal-delivery-title">White Glove, From Studio to Home</h2>
+            <p class="modal-desc">The experience doesn't end when we finish building your piece. Our dedicated delivery team handles every step — from careful packaging and insured transit to final placement in your home. We don't leave until the furniture is perfectly positioned and you are completely satisfied.</p>
+            <div class="modal-features">
+                <div class="modal-feature">
+                    <i class="ri-truck-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Insured Delivery</strong>
+                        <span>Every shipment is fully insured door-to-door, globally.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-home-gear-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>In-Home Assembly</strong>
+                        <span>Our team installs and assembles everything to specification.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-map-pin-time-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Tracked Every Step</strong>
+                        <span>Real-time updates from workshop departure to your front door.</span>
+                    </div>
+                </div>
+                <div class="modal-feature">
+                    <i class="ri-emotion-happy-line"></i>
+                    <div class="modal-feature-text">
+                        <strong>Satisfaction Promise</strong>
+                        <span>We return and re-position at no cost if anything isn't right.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-divider"></div>
+            <div class="modal-cta">
+                <a href="#contact" class="modal-btn-primary modal-close-trigger">
+                    Get a Quote <i class="ri-arrow-right-line"></i>
+                </a>
+                <a href="collection.html" class="modal-btn-outline">
+                    Browse Pieces <i class="ri-eye-line"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Scroll reveal js -->
-    <script src="js/scrollreveal.min.js"></script>
-    <!-- Swiper -->
-     <script src="js/swiper-bundle.min.js"></script>
-     <!-- Main js-->
+<script src="js/scrollreveal.min.js"></script>
+<!-- Swiper -->
+<script src="js/swiper-bundle.min.js"></script>
+<!-- Main js -->
+<script src="js/main.js"></script>
 
+<script>
+    /* ── Smooth scroll ── */
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+            var targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            var target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (window.innerWidth < 1024) {
+                    var navMenu = document.getElementById('nav_menu');
+                    if (navMenu) { navMenu.style.height = '0'; navMenu.style.padding = '0'; }
+                }
+            }
+        });
+    });
 
+    /* ── Modal system — pure WAAPI (Web Animations API), zero dependencies ── */
 
+    let closing = false;
 
+    function openModal(backdropId) {
+        var backdrop = document.getElementById(backdropId);
+        if (!backdrop) return;
+        var card = backdrop.querySelector('.modal-card');
 
-      <script src="js/main.js"></script>
+        // Show backdrop
+        backdrop.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        closing = false;
+
+        // Animate backdrop (fade in)
+        backdrop.animate(
+            [{ opacity: 0 }, { opacity: 1 }],
+            { duration: 220, easing: 'ease-out', fill: 'forwards' }
+        );
+
+        // Animate card (spring-like: slide up + scale + fade)
+        card.animate(
+            [
+                { opacity: 0, transform: 'translateY(48px) scale(0.93)' },
+                { opacity: 0.6, transform: 'translateY(-6px) scale(1.01)', offset: 0.7 },
+                { opacity: 1, transform: 'translateY(0px) scale(1)' }
+            ],
+            { duration: 460, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+        );
+    }
+
+    function closeModal(backdrop) {
+        if (!backdrop || closing) return;
+        closing = true;
+
+        var card = backdrop.querySelector('.modal-card');
+
+        // Animate card out
+        card.animate(
+            [
+                { opacity: 1, transform: 'translateY(0px) scale(1)' },
+                { opacity: 0, transform: 'translateY(28px) scale(0.95)' }
+            ],
+            { duration: 260, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+        );
+
+        // Animate backdrop out then hide
+        var anim = backdrop.animate(
+            [{ opacity: 1 }, { opacity: 0 }],
+            { duration: 280, easing: 'ease-in', fill: 'forwards' }
+        );
+
+        anim.onfinish = function () {
+            backdrop.style.display = 'none';
+            document.body.style.overflow = '';
+            closing = false;
+            // Reset animation states so re-open works cleanly
+            card.style.opacity = '';
+            card.style.transform = '';
+            backdrop.style.opacity = '';
+        };
+    }
+
+    // ── Open on "Read more" click ──
+    document.querySelectorAll('.read-more-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openModal(this.getAttribute('data-modal'));
+        });
+    });
+
+    // ── Close on × button ──
+    document.querySelectorAll('.modal-close').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeModal(this.closest('.modal-backdrop'));
+        });
+    });
+
+    // ── Close on backdrop click (outside card) ──
+    document.querySelectorAll('.modal-backdrop').forEach(function(backdrop) {
+        backdrop.addEventListener('click', function(e) {
+            if (e.target === backdrop) closeModal(backdrop);
+        });
+    });
+
+    // ── Close on CTA links that should also dismiss the modal ──
+    document.querySelectorAll('.modal-close-trigger').forEach(function(link) {
+        link.addEventListener('click', function() {
+            closeModal(this.closest('.modal-backdrop'));
+        });
+    });
+
+    // ── Close on Escape key ──
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            var open = document.querySelector('.modal-backdrop[style*="flex"]');
+            if (open) closeModal(open);
+        }
+    });
+</script>
 </body>
 </html>

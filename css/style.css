@@ -1,0 +1,20 @@
+   html {
+        scroll-behavior: smooth;
+    }
+
+    /* Ensure header always stays on top of everything */
+    header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 9999 !important;
+    }
+
+    /* Offset scroll so sections don't land under the sticky header */
+    section[id], footer[id] {
+        scroll-margin-top: 95px;
+    }
+
+    /* Prevent the fixed grid overlay from overlapping the header */
+    main > div:first-child {
+        z-index: 10 !important;
+    }
