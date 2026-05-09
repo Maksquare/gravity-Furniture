@@ -238,4 +238,90 @@ header.header-scrolled {
     background: #fff; z-index: 2;
 }
 .news-modal-tabs {
-    display: flex; gap: 6
+    display: flex; gap: 6px; flex-wrap: wrap;
+}
+.news-modal-tab {
+    font-family: 'Jost', sans-serif; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 16px; border-radius: 100px;
+    border: 1.5px solid var(--border);
+    color: var(--secondary); background: transparent;
+    cursor: pointer; transition: all 0.22s; white-space: nowrap;
+}
+.news-modal-tab:hover { border-color: var(--accent); color: var(--accent); }
+.news-modal-tab.is-active {
+    background: var(--accent); border-color: var(--accent);
+    color: #fff;
+}
+.news-modal-close-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent-secondary); border: 1.5px solid var(--border);
+    color: var(--primary); font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    transition: background 0.2s, transform 0.2s;
+}
+.news-modal-close-btn:hover { background: var(--accent); color: #fff; transform: rotate(90deg); }
+
+/* ── NAV LINK STYLES (matching collection.html) ── */
+#nav_menu li a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    padding: 6px 4px;
+    position: relative;
+    transition: color 0.2s;
+}
+
+#nav_menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+    transform-origin: left;
+}
+
+#nav_menu li a:hover { color: var(--accent); }
+#nav_menu li a:hover::after { transform: scaleX(1); }
+
+/* Active link state */
+#nav_menu li a.nav-active {
+    color: var(--accent);
+    font-weight: 600;
+}
+#nav_menu li a.nav-active::after {
+    transform: scaleX(1);
+}
+
+/* Mobile: swap underline for left border */
+@media (max-width: 1023px) {
+    #nav_menu li a.nav-active::after { display: none; }
+    #nav_menu li a.nav-active {
+        border-left: 3px solid var(--accent);
+        padding-left: 10px;
+    }
+    #nav_menu li a::after { display: none; }
+}
+
+/* Desktop: always show nav */
+@media (min-width: 1024px) {
+    #nav_menu {
+        height: auto !important;
+        padding: 0 !important;
+        display: flex !important;
+    }
+}
+
+/* ── HEADER SCROLLED STATE ── */
+header.header-scrolled {
+    box-shadow: 0 4px 24px rgba(41, 47, 54, 0.10) !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}

@@ -208,28 +208,33 @@
 <body class="bg-gray-100">
 
     <!-- header -->
-    <header class="sticky top-0 h-[90px] shadow-xl bg-white" style="z-index:9999;">
-        <div class="container mx-auto flex justify-between h-full items-center">
-            <a href="#home"><img src="assets/logo.svg" alt="Gravity Furniture"></a>
-            <nav>
-    <div class="cursor-pointer lg:hidden" id="nav_trigger_btn">
-        <i class="ri-menu-4-line text-4xl text-primary"></i>
+   <header class="sticky top-0 h-[90px] bg-white transition-all duration-300" style="z-index:9999; box-shadow: 0 2px 20px rgba(41,47,54,0.08);">
+    <div class="container mx-auto flex justify-between h-full items-center">
+        <a href="#home">
+            <img class="h-10 w-auto" src="assets/logo.svg" alt="Gravity Furniture">
+        </a>
+        <nav>
+            <div class="cursor-pointer lg:hidden" id="nav_trigger_btn">
+                <i class="ri-menu-4-line text-4xl" style="color: var(--primary);"></i>
+            </div>
+            <ul
+                id="nav_menu"
+                class="fixed w-full bg-white border-t top-[90px] left-0 right-0
+                       flex flex-col gap-4
+                       lg:relative lg:flex-row lg:gap-8 lg:p-0 lg:top-0 lg:border-none lg:flex
+                       overflow-hidden transition-all duration-300"
+                style="height:0; padding:0;"
+            >
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#works">Our Work</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </div>
-    <ul 
-        id="nav_menu"
-        class="fixed w-full bg-white border-t top-[90px] left-0 right-0 flex flex-col gap-4 lg:relative lg:flex-row lg:p-0 lg:top-0 lg:border-none lg:flex transition-all duration-300 overflow-hidden"
-        style="height:0; padding:0;"
-    >
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="#works">Our Work</a></li>
-        <li><a href="#news">News</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-</nav>
-        </div>
-    </header>
+</header>
 
     <main class="max-w-[1920px] mx-auto bg-white overflow-hidden">
         <div class="xl:bg-grid xl:bg-center xl:bg-repeat-y fixed top-[90px] bottom-0 left-0 right-0" style="z-index:5;"></div>

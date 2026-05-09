@@ -2,7 +2,7 @@
    1. MOBILE NAV TOGGLE
 ============================================================ */
 /* ============================================================
-   NAV: SCROLL SPY + ACTIVE LINK + STICKY HEADER STYLE
+   NAV: TOGGLE + SCROLL SPY + HEADER SCROLL STATE
 ============================================================ */
 const navBtn   = document.getElementById('nav_trigger_btn');
 const navMenu  = document.getElementById('nav_menu');
@@ -37,45 +37,36 @@ window.addEventListener('resize', () => {
 /* ── Set active link ── */
 function setActiveLink(id) {
     navLinks.forEach(link => {
-        const isActive = link.getAttribute('href') === '#' + id;
-        link.classList.toggle('nav-active', isActive);
+        link.classList.toggle('nav-active', link.getAttribute('href') === '#' + id);
     });
 }
 
-/* ── Scroll spy ── */
+/* ── Scroll spy + header state ── */
 const sections = document.querySelectorAll('section[id], footer[id]');
 
 function onScroll() {
-    /* Header shadow on scroll */
-    if (window.scrollY > 10) {
-        header.classList.add('header-scrolled');
-    } else {
-        header.classList.remove('header-scrolled');
-    }
+    /* Header style on scroll */
+    header.classList.toggle('header-scrolled', window.scrollY > 10);
 
-    /* Find which section is in view */
+    /* Active section detection */
     let current = '';
     sections.forEach(section => {
-        const top    = section.offsetTop - 155; // Adjust for header height
+        const top    = section.offsetTop - 155;
         const bottom = top + section.offsetHeight;
         if (window.scrollY >= top && window.scrollY < bottom) {
             current = section.id;
         }
     });
-
     if (current) setActiveLink(current);
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll(); // run once on load
 
-/* ── Click to set active immediately ── */
+/* ── Click: set active + close mobile nav ── */
 navLinks.forEach(link => {
     link.addEventListener('click', function () {
-        const id = this.getAttribute('href').replace('#', '');
-        setActiveLink(id);
-
-        /* Close mobile nav */
+        setActiveLink(this.getAttribute('href').replace('#', ''));
         if (window.innerWidth < 1024) {
             navOpen = false;
             navMenu.style.height  = '0';
