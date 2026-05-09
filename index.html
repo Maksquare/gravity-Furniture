@@ -29,15 +29,16 @@
     main > div:first-child   { z-index: 10 !important; }
 
     /* ── BRAND TOKENS ── */
-    :root {
-        --accent:           #cda274;
-        --accent-secondary: #f4f0ec;
-        --accent-hover:     #b88c5d;
-        --primary:          #292f36;
-        --secondary:        #4d5053;
-        --border:           rgba(205, 162, 116, 0.25);
-    }
-
+   :root {
+    --accent:           #7d431d;   /* logo brown */
+    --accent-secondary: #fdf3e3;   /* warm cream */
+    --accent-hover:     #5e3115;   /* deep hover brown */
+    --accent-gold:      #f9cc89;   /* logo gold */
+    --accent-muted:     #c49a6c;   /* soft mid-tone */
+    --primary:          #2c1a0e;   /* deep espresso */
+    --secondary:        #6b4c35;   /* warm mid brown */
+    --border:           rgba(125, 67, 29, 0.2);
+}
     /* ══════════════════════════════════════
        MODAL SYSTEM
     ══════════════════════════════════════ */
@@ -211,7 +212,7 @@
    <header class="sticky top-0 h-[90px] bg-white transition-all duration-300" style="z-index:9999; box-shadow: 0 2px 20px rgba(41,47,54,0.08);">
     <div class="container mx-auto flex justify-between h-full items-center">
         <a href="#home">
-            <img class="h-10 w-auto" src="assets/logo.svg" alt="Gravity Furniture">
+            <img class="h-16 w-auto" src="assets/logo.svg" alt="Gravity Furniture">
         </a>
         <nav>
             <div class="cursor-pointer lg:hidden" id="nav_trigger_btn">
@@ -245,7 +246,7 @@
                 <div class="hero__text w-[567px] flex flex-col items-center text-center xl:text-left lg:items-start">
                     <h1 class="h1 mb-8">Elevate Your Space with Premium Furniture</h1>
                     <p class="mb-8">Gravity Furniture brings you an exclusive collection of beautifully crafted, premium pieces designed to transform every room into a statement of luxury and comfort.</p>
-                    <a href="collection.html" class="btn btn-primary mx-auto xl:mx-0">Explore Collection <i class="ri-arrow-right-line text-accent"></i></a>
+                    <a href="collection.html" class="group btn btn-primary mx-auto xl:mx-0 hover:text-white">Explore Collection <i class="ri-arrow-right-line text-accent group-hover:translate-x-1 group-hover:text-white  transition-all duration-300"></i></a>
                 </div>
             </div>
         </section>
@@ -258,19 +259,19 @@
                         <div class="mb-4"><i class="ri-compasses-2-line text-5xl text-accent"></i></div>
                         <h3 class="h3 mb-5">Custom Design</h3>
                         <p class="mb-5 max-w-md mx-auto">Work with our expert designers to craft bespoke furniture pieces tailored perfectly to your space and personal style.</p>
-                        <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn" data-modal="modal-design">Read more <i class="ri-arrow-right-line text-accent"></i></a>
+                        <a class=" group font-medium flex justify-center gap-2 cursor-pointer read-more-btn" data-modal="modal-design">Read more <i class="ri-arrow-right-line group-hover:translate-x-1 transition-all duration-300 text-accent"></i></a>
                     </div>
                     <div class="steps__step text-center">
                         <div class="mb-4"><i class="ri-magic-line text-5xl text-accent"></i></div>
                         <h3 class="h3 mb-5">Premium Materials</h3>
                         <p class="mb-5 max-w-md mx-auto">Every piece is crafted using the finest sustainably sourced hardwoods, luxurious fabrics, and top-grade metals for lasting beauty.</p>
-                        <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn" data-modal="modal-materials">Read more <i class="ri-arrow-right-line text-accent"></i></a>
+                        <a class="group font-medium flex justify-center gap-2 cursor-pointer read-more-btn" data-modal="modal-materials">Read more <i class="ri-arrow-right-line group-hover:translate-x-1 transition-all duration-300 text-accent"></i></a>
                     </div>
                     <div class="steps__step text-center">
                         <div class="mb-4"><i class="ri-tools-line text-5xl text-accent"></i></div>
                         <h3 class="h3 mb-5">White Glove Delivery</h3>
                         <p class="mb-5 max-w-md mx-auto">We handle everything from delivery to in-home setup, ensuring your new furniture is perfectly placed and ready to enjoy.</p>
-                        <a class="font-medium flex justify-center gap-2 cursor-pointer read-more-btn" data-modal="modal-delivery">Read more <i class="ri-arrow-right-line text-accent"></i></a>
+                        <a class="group font-medium flex justify-center gap-2 cursor-pointer read-more-btn " data-modal="modal-delivery">Read more <i class="ri-arrow-right-line group-hover:translate-x-1 transition-all duration-300 text-accent"></i></a>
                     </div>
                 </div>
             </div>
@@ -292,7 +293,7 @@
                                 <div class="flex items-center gap-1 text-sm" style="color:var(--secondary)">Tap to connect <i class="ri-arrow-right-s-line text-accent"></i></div>
                             </div>
                         </button>
-                        <button id="showroom-trigger" class="btn btn-primary">Book a Showroom Visit <i class="ri-arrow-right-line text-accent"></i></button>
+                        <button id="showroom-trigger" class="group btn btn-primary">Book a Showroom Visit <i class=" group-hover:translate-x-1 group-hover:text-white transition-all duration-300 ri-arrow-right-line text-accent"></i></button>
                     </div>
                     <div class="about__img order-1 xl:order:none max-w-[453px] mx-auto xl:max-w-none xl:mx-0">
                         <img src="assets/about/img.png" alt="Premium furniture showcase">
@@ -482,7 +483,7 @@
                 <div class="contact__text max-w-[640px] mx-auto text-center">
                     <h2 class="h2 text-white mb-4">Ready to Furnish Your Dream Space?</h2>
                     <p class="text-white mb-8 max-w-sm xl:max-w-none mx-auto">Visit our showroom or speak with a designer today — we'll bring your vision to life.</p>
-                    <button class="btn btn-accent mx-auto">Get in Touch <i class="ri-arrow-right-line text-primary"></i></button>
+                    <button class="group btn btn-accent mx-auto">Get in Touch <i class="ri-arrow-right-line group-hover:translate-x-1 group-hover:text-white transition-all duration-300 text-primary"></i></button>
                 </div>
             </div>
         </section>
@@ -492,7 +493,7 @@
             <div class="container mx-auto px-0">
                 <div class="flex flex-col xl:flex-row xl:gap-[100px] xl:mb-[150px]">
                     <div class="footer__item w-full max-w-[400px] mx-auto mb-8 text-center xl:text-left">
-                        <a class="flex justify-center xl:justify-start mb-8" href="#home"><img src="assets/logo.svg" alt="Gravity Furniture"></a>
+                        <a class="flex justify-center xl:justify-start mb-8" href="#home"><img class="h-16 w-auto" src="assets/logo.svg" alt="Gravity Furniture"></a>
                         <p class="mb-8 text-xl">Crafting premium, handmade furniture for those who appreciate the finest things in life.</p>
                         <ul class="text-primary flex gap-[54px] justify-center xl:justify-start">
                             <li><a href="#"><i class="ri-facebook-fill"></i></a></li>
