@@ -735,6 +735,10 @@ video {
   height: 3.5rem;
 }
 
+.h-\[280px\] {
+  height: 280px;
+}
+
 .w-\[52px\] {
   width: 52px;
 }
@@ -928,6 +932,10 @@ video {
 
 .rounded-2xl {
   border-radius: 1rem;
+}
+
+.rounded-\[42px\] {
+  border-radius: 42px;
 }
 
 .border {

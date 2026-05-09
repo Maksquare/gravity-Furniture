@@ -56,7 +56,7 @@ function onScroll() {
     /* Find which section is in view */
     let current = '';
     sections.forEach(section => {
-        const top    = section.offsetTop - 118;
+        const top    = section.offsetTop - 155; // Adjust for header height
         const bottom = top + section.offsetHeight;
         if (window.scrollY >= top && window.scrollY < bottom) {
             current = section.id;
@@ -374,7 +374,102 @@ document.querySelectorAll('.work-item').forEach(item => {
 
 
 
+/* ============================================================
+   NEWS MODAL
+============================================================ */
+const newsBd      = document.getElementById('modal-news');
+const newsTrack   = document.getElementById('news-slides-track');
+const newsTabs    = document.querySelectorAll('.news-modal-tab');
+const newsCloseBtn= document.getElementById('news-modal-close');
 
+let newsIdx = 0;
+
+const NEWS_MAP = { sofa: 0, wood: 1, trends: 2 };
+
+function openNewsModal(slideIdx) {
+    newsIdx = slideIdx || 0;
+    newsTrack.style.transition = 'none';
+    newsTrack.style.transform  = `translateX(-${newsIdx * 100}%)`;
+    updateNewsTabs();
+
+    newsBd.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    newsBd.getAnimations().forEach(a => a.cancel());
+    const card = newsBd.querySelector('.news-modal-card');
+    card.getAnimations().forEach(a => a.cancel());
+
+    newsBd.animate([{ opacity: 0 }, { opacity: 1 }],
+        { duration: 220, easing: 'ease-out', fill: 'forwards' });
+    card.animate([
+        { opacity: 0,   transform: 'translateY(40px) scale(0.95)' },
+        { opacity: 0.8, transform: 'translateY(-4px) scale(1.01)', offset: 0.7 },
+        { opacity: 1,   transform: 'translateY(0) scale(1)' }
+    ], { duration: 460, easing: 'cubic-bezier(0.22,1,0.36,1)', fill: 'forwards' });
+}
+
+function closeNewsModal() {
+    const card = newsBd.querySelector('.news-modal-card');
+    card.animate(
+        [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0.96)' }],
+        { duration: 220, easing: 'ease-in', fill: 'forwards' }
+    );
+    newsBd.animate([{ opacity: 1 }, { opacity: 0 }],
+        { duration: 240, easing: 'ease-in', fill: 'forwards' }
+    ).onfinish = () => {
+        newsBd.style.display = 'none';
+        document.body.style.overflow = '';
+    };
+}
+
+function goToNewsSlide(idx) {
+    newsIdx = idx;
+    newsTrack.style.transition = 'transform 0.55s cubic-bezier(0.22,1,0.36,1)';
+    newsTrack.style.transform  = `translateX(-${newsIdx * 100}%)`;
+    updateNewsTabs();
+}
+
+function updateNewsTabs() {
+    newsTabs.forEach((tab, i) => tab.classList.toggle('is-active', i === newsIdx));
+}
+
+/* Tab clicks */
+newsTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => goToNewsSlide(i));
+});
+
+/* Close */
+newsCloseBtn.addEventListener('click', closeNewsModal);
+newsBd.addEventListener('click', e => { if (e.target === newsBd) closeNewsModal(); });
+document.querySelectorAll('.news-close-trigger').forEach(el => {
+    el.addEventListener('click', () => closeNewsModal());
+});
+
+/* News card clicks */
+document.querySelectorAll('.news__item').forEach(item => {
+    item.addEventListener('click', () => {
+        const key = item.dataset.news;
+        openNewsModal(NEWS_MAP[key] ?? 0);
+    });
+});
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+    if (!newsBd || newsBd.style.display !== 'flex') return;
+    if (e.key === 'ArrowLeft'  && newsIdx > 0) goToNewsSlide(newsIdx - 1);
+    if (e.key === 'ArrowRight' && newsIdx < 2)  goToNewsSlide(newsIdx + 1);
+});
+
+/* Touch swipe */
+let nTouchX = 0;
+newsBd.addEventListener('touchstart', e => { nTouchX = e.touches[0].clientX; }, { passive: true });
+newsBd.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - nTouchX;
+    if (Math.abs(dx) > 40) {
+        if (dx < 0 && newsIdx < 2) goToNewsSlide(newsIdx + 1);
+        if (dx > 0 && newsIdx > 0) goToNewsSlide(newsIdx - 1);
+    }
+}, { passive: true });
 
 
 /* ============================================================
